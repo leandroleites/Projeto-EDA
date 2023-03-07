@@ -21,8 +21,8 @@ int menuescolhas()
 
 int main()
 {
-
-	menuescolhas();
+    
+    menuescolhas();
 
 
 }
