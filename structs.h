@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "functions.h"
 #ifndef STRUCTS_H_INCLUDED
 #define STRUCTS_H_INCLUDED
 
@@ -22,16 +23,14 @@ typedef struct Cliente {
 
 typedef struct Gestor {
     char nome[50];
+    char email[50];
     struct Gestor *proximo;
 } Gestor;
 
-MeioEletrico *lista_me = NULL;
-Cliente *lista_cli = NULL;             // Para criar uma nova lista ligada, criei um ponteiro para o primeiro elemento e meti como NULL:
-Gestor *lista_ges = NULL;
 
 
 
-void insereCliente(Cliente **listaClientes);
-void mostraClientes(Cliente *listaClientes);
+
+
 
 #endif
