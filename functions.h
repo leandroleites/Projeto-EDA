@@ -12,7 +12,9 @@ void mostraClientes(Cliente *listaClientes);
 void insereMeio(MeioEletrico **listaMeios);
 void mostraMeios(MeioEletrico **listaMeios);
 
+void menuescolhasgestor();
 
+void registraCliente(Cliente **listaClientes);
 
 
 
