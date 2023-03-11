@@ -198,6 +198,12 @@ void registraCliente(Cliente **listaClientes) {
     printf("Email: ");
     scanf("%s", novoCliente->email);
 
+    // Abrir arquivo para escrita
+    FILE *arquivoClientes;
+    arquivoClientes = fopen("clientes.txt", "a");
+
+
+    // Verificar se o email já existe na lista
     Cliente *aux;
     for (aux = *listaClientes; aux != NULL; aux = aux->proximo) {
         if (strcmp(novoCliente->email, aux->email) == 0) {
@@ -206,11 +212,12 @@ void registraCliente(Cliente **listaClientes) {
             return;
         }
     }
+    
 
     printf("Senha: ");
     scanf("%s", novoCliente->pass);
 
-    // Verificar se o email já existe na lista
+   
     
     // Inserir o novo cliente no final da lista
     if (*listaClientes == NULL) {
@@ -222,6 +229,8 @@ void registraCliente(Cliente **listaClientes) {
         }
         ultimo->proximo = novoCliente;
     }
-
+    fprintf(arquivoClientes, "%s;%s;%d;%s;%s\n", novoCliente->nome, novoCliente->morada, novoCliente->nif, novoCliente->email, novoCliente->pass);
+    fclose(arquivoClientes);
     printf("Cliente registrado com sucesso.\n");
     
+}
