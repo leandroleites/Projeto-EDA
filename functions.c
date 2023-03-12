@@ -104,14 +104,14 @@ void mostraClientes(Cliente *listaClientes) {
 }
 Cliente *listaClientes = NULL;
 MeioEletrico *listaMeios =NULL;
-
+Gestor *listaGestores=NULL;
 void menuescolhasgestor()
 {
    int opc;
    int op1;
   do
 	{
-        int opc;
+    
         printf(" -------------------------------------------\n");
         printf("| 1 Inserir novos dados                     |\n");
         printf("| 2 Listar dados                            |\n");
@@ -233,4 +233,52 @@ void registraCliente(Cliente **listaClientes) {
     fclose(arquivoClientes);
     printf("Cliente registrado com sucesso.\n");
     
+}
+
+
+int loginGestor(Gestor *listaGestores) {
+    char email[50], pass[50];
+    printf("\n\nEmail: ");
+    scanf("%s", email);
+
+    printf("Senha: ");
+    scanf("%s", pass);
+
+    // Verificar se o gestor existe na lista
+    Gestor *aux;
+    for (aux = listaGestores; aux != NULL; aux = aux->proximo) {
+        if (strcmp(email, aux->email) == 0 && strcmp(pass, aux->pass) == 0) {
+            printf("Bem-vindo, %s!\n", aux->nome);
+            menuescolhasgestor();
+            return 1;
+        }
+    }
+
+    // Se não encontrou na lista, verificar no arquivo
+    FILE *arquivoGestores;
+    arquivoGestores = fopen("gestores.txt", "r");
+    if (arquivoGestores == NULL) {
+        printf("ERRO: Não foi possível abrir o arquivo de gestores.\n");
+        return 0;
+    }
+
+    char linha[150];
+    char *token;
+    while (fgets(linha, 150, arquivoGestores) != NULL) {
+        token = strtok(linha, ";");
+        if (strcmp(token, email) == 0) {
+            token = strtok(NULL, ";");
+            if (strcmp(token, pass) == 0) {
+                token = strtok(NULL, ";");
+                printf("Bem-vindo, %s!\n", token);
+                fclose(arquivoGestores);
+                menuescolhasgestor();
+                return 1;
+            }
+        }
+    }
+
+    printf("ERRO: Email ou senha incorretos.\n");
+    fclose(arquivoGestores);
+    return 0;
 }

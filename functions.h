@@ -16,7 +16,7 @@ void menuescolhasgestor();
 
 void registraCliente(Cliente **listaClientes);
 
-
+int loginGestor(Gestor *listaGestores);
 
 
 #endif
