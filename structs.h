@@ -14,9 +14,13 @@ typedef struct MeioEletrico {
 } MeioEletrico;
 
 typedef struct Cliente {
-    char nif[20];
     char nome[50];
     char morada[100];
+    char nif[20];
+    char email[50];
+    char pass[50];
+    
+    
     float saldo;
     struct Cliente *proximo;
 } Cliente;
@@ -24,6 +28,7 @@ typedef struct Cliente {
 typedef struct Gestor {
     char nome[50];
     char email[50];
+    char pass[50];
     struct Gestor *proximo;
 } Gestor;
 

@@ -5,87 +5,45 @@
 #include "structs.h"
 #include "functions.h"
 
-
-int menuescolhas()
-{
-	int opc;
-	printf(" -------------------------------------------\n");
-	printf("| 1 Inserir novos dados                     |\n");
-	printf("| 2 Listar dados                            |\n");
-	printf("| 3 Remover dados                           |\n");
-	printf("| 4 Guardar dados                           |\n");
-	printf("| 5 Ler dados                               |\n");
-	printf("| 0 Sair                                    |\n");
-	printf(" -------------------------------------------\n");
-	printf(" Opcao: ");
-	scanf("%d", &opc);
-	return(opc);
-
-}
-
-
 int main()
 {   
 	
+
     int opc;
 	int op1;
+	int opinicial;
 	Cliente *listaClientes = NULL;
 	MeioEletrico *listaMeios =NULL;
-	
-	do
+	printf("\nEscolha uma opcao:\n");
+    printf(" --------------------------\n");
+	printf("| 1- Login como Gestor     |\n");
+	printf("| 2- Login como Cliente    |\n");
+	printf("| 3- Registar como Cliente |\n");
+    printf(" --------------------------\n\n");
+    printf(" Opcao: ");
+	scanf("%d",&opinicial);
+
+    switch(opinicial)
 	{
-		opc=menuescolhas();
-		switch(opc)
-		{
-          case 1: printf("\nDeseja inserir: \n\n");
-		          printf(" ---------------\n");
-				  printf("| 1- Meios      |\n");
-				  printf("| 2- Clientes   |\n");
-				  printf("| 3- Gestores   |\n");
-				  printf(" --------------- \n\n");
-		          printf(" Opcao: ");
-				  scanf("%d",&op1);
-				  switch (op1)
-				  {
-				  case 1:
-					 insereMeio(&listaMeios);
-					break;
-				  case 2:
-				    insereCliente(&listaClientes);
-				    break;
-				  case 3:
-				    
-				  default:
-					break;
-				  }
-                  
-				  break;
-		  case 2: printf("\nDeseja listar: \n\n");
-		          printf(" ---------------\n");
-				  printf("| 1- Meios      |\n");
-				  printf("| 2- Clientes   |\n");
-				  printf("| 3- Gestores   |\n");
-				  printf(" --------------- \n\n");
-		          printf(" Opcao: ");
-				  scanf("%d",&op1);
-				  switch (op1)
-				  {
-				  case 1:
-					mostraMeios(&listaMeios);
-					break;
-				  case 2:
-				     mostraClientes(listaClientes);
-				  break;
+		case 1:
+		 loginGestor(&listaGestores);
+		break;
+		case 2:
 
-				  case 3:
+		break;
 
-				  break;
-				  default:
-					break;
-				  }
-		}
+		case 3:
+		registraCliente(&listaClientes);
+
+		break;
+		default:
+		break;
 	}
-	while(opc!=0);
+
+
+
+
+	
 
    
 	
