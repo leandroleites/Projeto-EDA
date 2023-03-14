@@ -3,6 +3,10 @@
 #include "structs.h"
 #include "functions.h"
 
+Cliente *listaClientes = NULL;
+MeioEletrico *listaMeios =NULL;
+Gestor *listaGestores=NULL;
+
 void insereMeio(MeioEletrico **listaMeios) {
     MeioEletrico *novoMeio = malloc(sizeof(MeioEletrico));
 
@@ -77,7 +81,14 @@ void insereCliente(Cliente **listaClientes) {
 
     novoCliente->proximo = *listaClientes;
     *listaClientes = novoCliente;
-
+    // Armazena o cliente no arquivo clientes.txt
+    FILE *arquivoClientes = fopen("clientes.txt", "a");
+    if (arquivoClientes == NULL) {
+        printf("ERRO: Não foi possível abrir o arquivo de clientes.\n");
+        return;
+    }
+    fprintf(arquivoClientes, "%s;%s;%s;%s;%.2f\n", novoCliente->nif, novoCliente->email, novoCliente->pass, novoCliente->morada, novoCliente->saldo);
+    fclose(arquivoClientes);
     printf("\n Cliente criado com sucesso! \n \n ");
 }
 
@@ -102,9 +113,8 @@ void mostraClientes(Cliente *listaClientes) {
     }
     printf("\n\n\n");
 }
-Cliente *listaClientes = NULL;
-MeioEletrico *listaMeios =NULL;
-Gestor *listaGestores=NULL;
+
+
 void menuescolhasgestor()
 {
    int opc;
@@ -234,9 +244,47 @@ void registraCliente(Cliente **listaClientes) {
     printf("Cliente registrado com sucesso.\n");
     
 }
+int lerGestoresArquivo(Gestor **listaGestores) {
+    FILE *arquivoGestores;
+    arquivoGestores = fopen("gestores.txt", "r");
+    if (arquivoGestores == NULL) {
+        printf("ERRO: Não foi possível abrir o arquivo de gestores.\n");
+        return 0;
+    }
+
+    char linha[150];
+    char *token;
+    while (fgets(linha, 150, arquivoGestores) != NULL) {
+        Gestor *novoGestor = (Gestor*) malloc(sizeof(Gestor));
+        if (novoGestor == NULL) {
+            printf("ERRO: Não foi possível alocar memória para um novo gestor.\n");
+            fclose(arquivoGestores);
+            return 0;
+        }
+        token = strtok(linha, ";");
+        strcpy(novoGestor->nome, token);
+
+        token = strtok(NULL, ";");
+        strcpy(novoGestor->email, token);
+
+        token = strtok(NULL, ";");
+        strcpy(novoGestor->pass, token);
+
+        novoGestor->proximo = *listaGestores;
+        *listaGestores = novoGestor;
+    }
+
+    fclose(arquivoGestores);
+    return 1;
+}
 
 
-int loginGestor(Gestor *listaGestores) {
+void loginGestor(Gestor *listaGestores) {
+    // Ler gestores do arquivo
+    if (!lerGestoresArquivo(&listaGestores)) {
+        return;
+    }
+
     char email[50], pass[50];
     printf("\n\nEmail: ");
     scanf("%s", email);
@@ -250,35 +298,9 @@ int loginGestor(Gestor *listaGestores) {
         if (strcmp(email, aux->email) == 0 && strcmp(pass, aux->pass) == 0) {
             printf("Bem-vindo, %s!\n", aux->nome);
             menuescolhasgestor();
-            return 1;
-        }
-    }
-
-    // Se não encontrou na lista, verificar no arquivo
-    FILE *arquivoGestores;
-    arquivoGestores = fopen("gestores.txt", "r");
-    if (arquivoGestores == NULL) {
-        printf("ERRO: Não foi possível abrir o arquivo de gestores.\n");
-        return 0;
-    }
-
-    char linha[150];
-    char *token;
-    while (fgets(linha, 150, arquivoGestores) != NULL) {
-        token = strtok(linha, ";");
-        if (strcmp(token, email) == 0) {
-            token = strtok(NULL, ";");
-            if (strcmp(token, pass) == 0) {
-                token = strtok(NULL, ";");
-                printf("Bem-vindo, %s!\n", token);
-                fclose(arquivoGestores);
-                menuescolhasgestor();
-                return 1;
-            }
+            return;
         }
     }
 
     printf("ERRO: Email ou senha incorretos.\n");
-    fclose(arquivoGestores);
-    return 0;
 }
