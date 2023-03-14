@@ -16,7 +16,9 @@ void menuescolhasgestor();
 
 void registraCliente(Cliente **listaClientes);
 
-int loginGestor(Gestor *listaGestores);
+void loginGestor(Gestor **listaGestores);
+
+int lerGestoresArquivo(Gestor **listaGestores);
 
 
 #endif
