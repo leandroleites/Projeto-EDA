@@ -4,9 +4,10 @@
 #include "structs.h"
 #include "functions.c"
 #include <stdlib.h>
+#include <stdio.h> 
 
 void insereCliente(Cliente **listaClientes);
-
+void insereGestor(Gestor **listaGestores);
 void mostraClientes(Cliente *listaClientes);
 
 void insereMeio(MeioEletrico **listaMeios);
@@ -15,10 +16,5 @@ void mostraMeios(MeioEletrico **listaMeios);
 void menuescolhasgestor();
 
 void registraCliente(Cliente **listaClientes);
-
-void loginGestor(Gestor **listaGestores);
-
-int lerGestoresArquivo(Gestor **listaGestores);
-
-
+void loginGestor();
 #endif

@@ -91,6 +91,29 @@ void insereCliente(Cliente **listaClientes) {
     fclose(arquivoClientes);
     printf("\n Cliente criado com sucesso! \n \n ");
 }
+void insereGestor(Gestor **listaGestores) {
+    Gestor *novoGestor = (Gestor*) malloc(sizeof(Gestor));
+
+    printf("Insira o nome do gestor: ");
+    scanf("%s", novoGestor->nome);
+    printf("Insira o email: ");
+    scanf("%s", novoGestor->email);
+    printf("Insire a password: ");
+    scanf("%s", novoGestor->pass);
+
+    novoGestor->proximo = *listaGestores;
+    *listaGestores = novoGestor;
+    // Armazena o gestor no arquivo gestores.txt
+    FILE *arquivoGestores = fopen("gestores.txt", "a");
+    if (arquivoGestores == NULL) {
+        printf("ERRO: Não foi possível abrir o arquivo de gestores.\n");
+        return;
+    }
+    fprintf(arquivoGestores, "%s;%s;%s\n", novoGestor->nome, novoGestor->email, novoGestor->pass);
+    fclose(arquivoGestores);
+    printf("\n Gestor criado com sucesso! \n \n ");
+    system("cls");
+}
 
 void mostraClientes(Cliente *listaClientes) {
     Cliente *aux;
@@ -117,6 +140,7 @@ void mostraClientes(Cliente *listaClientes) {
 
 void menuescolhasgestor()
 {
+    
    int opc;
    int op1;
   do
@@ -151,7 +175,7 @@ void menuescolhasgestor()
 				    insereCliente(&listaClientes);
 				    break;
 				  case 3:
-				    
+				    insereGestor(&listaGestores);
 				  default:
 					break;
 				  }
@@ -244,63 +268,56 @@ void registraCliente(Cliente **listaClientes) {
     printf("Cliente registrado com sucesso.\n");
     
 }
-int lerGestoresArquivo(Gestor **listaGestores) {
-    FILE *arquivoGestores;
-    arquivoGestores = fopen("gestores.txt", "r");
-    if (arquivoGestores == NULL) {
-        printf("ERRO: Não foi possível abrir o arquivo de gestores.\n");
-        return 0;
-    }
 
+
+
+void loginGestor() {
+    FILE *arquivo;
     char linha[150];
-    char *token;
-    while (fgets(linha, 150, arquivoGestores) != NULL) {
-        Gestor *novoGestor = (Gestor*) malloc(sizeof(Gestor));
-        if (novoGestor == NULL) {
-            printf("ERRO: Não foi possível alocar memória para um novo gestor.\n");
-            fclose(arquivoGestores);
-            return 0;
-        }
-        token = strtok(linha, ";");
-        strcpy(novoGestor->nome, token);
+    char *nome, *email, *senha;
+    Gestor *novo_gestor;
+    Gestor *gestores = NULL;
+    char email_login[50], senha_login[50];
 
-        token = strtok(NULL, ";");
-        strcpy(novoGestor->email, token);
-
-        token = strtok(NULL, ";");
-        strcpy(novoGestor->pass, token);
-
-        novoGestor->proximo = *listaGestores;
-        *listaGestores = novoGestor;
-    }
-
-    fclose(arquivoGestores);
-    return 1;
+    // Abrir arquivo de gestores
+    arquivo = fopen("gestores.txt", "r");
+    nome = (char*) malloc(50 * sizeof(char));
+    email = (char*) malloc(50 * sizeof(char));
+    senha = (char*) malloc(50 * sizeof(char));
+    // Ler arquivo linha por linha e armazenar na lista de gestores
+   while (fscanf(arquivo, "%[^;];%[^;];%s", nome, email, senha) == 3) {
+    // Criar novo gestor e adicionar à lista
+    novo_gestor = (Gestor*) malloc(sizeof(Gestor));
+    strcpy(novo_gestor->nome, nome);
+    strcpy(novo_gestor->email, email);
+    strcpy(novo_gestor->pass, senha);
+    novo_gestor->proximo = gestores;
+    gestores = novo_gestor;
 }
 
+  
+    int login_bem_sucedido = 0;
+    while (!login_bem_sucedido) {
+        // Pedir email e senha para login
+        printf("\n\n Email: ");
+        scanf("%s", email_login);
+        printf("\n Senha: ");
+        scanf("%s", senha_login);
 
-void loginGestor(Gestor *listaGestores) {
-    // Ler gestores do arquivo
-    if (!lerGestoresArquivo(&listaGestores)) {
-        return;
-    }
-
-    char email[50], pass[50];
-    printf("\n\nEmail: ");
-    scanf("%s", email);
-
-    printf("Senha: ");
-    scanf("%s", pass);
-
-    // Verificar se o gestor existe na lista
-    Gestor *aux;
-    for (aux = listaGestores; aux != NULL; aux = aux->proximo) {
-        if (strcmp(email, aux->email) == 0 && strcmp(pass, aux->pass) == 0) {
-            printf("Bem-vindo, %s!\n", aux->nome);
-            menuescolhasgestor();
-            return;
+        // Verificar se email e senha correspondem a algum gestor na lista
+        Gestor *g = gestores;
+        while (g != NULL) {
+            if (strcmp(g->email, email_login) == 0 && strcmp(g->pass, senha_login) == 0) {
+                // Login bem-sucedido, chamar o menu de opções para o gestor
+                system("cls");
+                printf("\nBem-vindo, %s!\n\n", g->nome);
+                menuescolhasgestor();
+                return;
+            }
+            g = g->proximo;
         }
-    }
 
-    printf("ERRO: Email ou senha incorretos.\n");
+        // Caso email e/ou senha estejam incorretos
+        printf("\nEmail e/ou senha incorretos. Tente novamente.\n\n");
+    }
 }

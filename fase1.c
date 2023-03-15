@@ -26,7 +26,7 @@ int main()
     switch(opinicial)
 	{
 		case 1:
-		 loginGestor(&listaGestores);
+		 loginGestor();
 		break;
 		case 2:
 
