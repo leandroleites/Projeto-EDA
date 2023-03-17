@@ -5,6 +5,9 @@
 #include "functions.c"
 #include <stdlib.h>
 #include <stdio.h> 
+void lerClientes(Cliente **listaClientes);
+void lerMeios(MeioEletrico **listaMeios);
+
 
 void insereCliente(Cliente **listaClientes);
 void insereGestor(Gestor **listaGestores);

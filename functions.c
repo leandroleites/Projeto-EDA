@@ -7,6 +7,8 @@ Cliente *listaClientes = NULL;
 MeioEletrico *listaMeios =NULL;
 Gestor *listaGestores=NULL;
 
+
+
 void insereMeio(MeioEletrico **listaMeios) {
     MeioEletrico *novoMeio = malloc(sizeof(MeioEletrico));
 
@@ -41,7 +43,48 @@ void insereMeio(MeioEletrico **listaMeios) {
     *listaMeios = novoMeio;
 
     printf("\n\nMeio eletrico inserido com sucesso.\n\n\n");
+
+    // Armazena o meio eletrico no arquivo meios.txt
+    FILE *arquivoMeios = fopen("meios.txt", "a");
+    if (arquivoMeios == NULL) {
+        printf("ERRO: Não foi possível abrir o arquivo de meios.\n");
+        return;
+    }
+    fprintf(arquivoMeios, "%d;%s;%d;%.2f;%s\n", novoMeio->id, novoMeio->tipo, novoMeio->carga_bateria, novoMeio->custo, novoMeio->localizacao);
+    fclose(arquivoMeios);
 }
+void lerMeios(MeioEletrico **listaMeios) {
+    FILE *arquivo;
+    char linha[250];
+    char *idStr, *tipo, *cargaStr, *custoStr, *localizacao;
+    MeioEletrico *novoMeio;
+
+    // Abrir arquivo de meios
+    arquivo = fopen("meios.txt", "r");
+
+    // Ler arquivo linha por linha e armazenar na lista de meios
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        // Separar campos pelo caractere ';'
+        idStr = strtok(linha, ";");
+        tipo = strtok(NULL, ";");
+        cargaStr = strtok(NULL, ";");
+        custoStr = strtok(NULL, ";");
+        localizacao = strtok(NULL, ";");
+
+        // Criar novo meio e adicionar à lista
+        novoMeio = (MeioEletrico*) malloc(sizeof(MeioEletrico));
+        novoMeio->id = atoi(idStr);  // converter string para int
+        strcpy(novoMeio->tipo, tipo);
+        novoMeio->carga_bateria = atoi(cargaStr);  // converter string para int
+        novoMeio->custo = atof(custoStr);  // converter string para float
+        strcpy(novoMeio->localizacao, localizacao);
+        novoMeio->proximo = *listaMeios;
+        *listaMeios = novoMeio;
+    }
+
+    fclose(arquivo);
+}
+
 
 void mostraMeios(MeioEletrico **listaMeios) {
     MeioEletrico *aux;
@@ -91,6 +134,7 @@ void insereCliente(Cliente **listaClientes) {
     fclose(arquivoClientes);
     printf("\n Cliente criado com sucesso! \n \n ");
 }
+
 void insereGestor(Gestor **listaGestores) {
     Gestor *novoGestor = (Gestor*) malloc(sizeof(Gestor));
 
@@ -115,9 +159,55 @@ void insereGestor(Gestor **listaGestores) {
     system("cls");
 }
 
+
+
+void lerClientes(Cliente **listaClientes) {
+    FILE *arquivo;
+    char linha[250];
+    char *nome, *morada, *nif, *email, *senha, *saldoStr;
+    Cliente *novoCliente;
+
+    // Abrir arquivo de clientes
+    arquivo = fopen("clientes.txt", "r");
+
+    // Ler arquivo linha por linha e armazenar na lista de clientes
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        // Separar campos pelo caractere ';'
+        nome = strtok(linha, ";");
+        morada = strtok(NULL, ";");
+        nif = strtok(NULL, ";");
+        email = strtok(NULL, ";");
+        senha = strtok(NULL, ";");
+        saldoStr = strtok(NULL, ";");
+
+        // Criar novo cliente e adicionar à lista
+        novoCliente = (Cliente*) malloc(sizeof(Cliente));
+        strcpy(novoCliente->nome, nome);
+        strcpy(novoCliente->morada, morada);
+        strcpy(novoCliente->nif, nif);
+        strcpy(novoCliente->email, email);
+        strcpy(novoCliente->pass, senha);
+        novoCliente->saldo = atof(saldoStr);  // converter string para float
+        novoCliente->proximo = *listaClientes;
+        *listaClientes = novoCliente;
+    }
+
+    fclose(arquivo);
+}
+
+
+
+
+
+
+
+
+
+
+
 void mostraClientes(Cliente *listaClientes) {
     Cliente *aux;
-
+    lerClientes(&listaClientes);
     if (listaClientes == NULL) {
         printf("\nNao ha clientes cadastrados.\n");
         return;
