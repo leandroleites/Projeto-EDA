@@ -29,9 +29,8 @@ int main()
 		 loginGestor();
 		break;
 		case 2:
-
+         loginCliente();
 		break;
-
 		case 3:
 		registraCliente(&listaClientes);
 
@@ -39,14 +38,6 @@ int main()
 		default:
 		break;
 	}
-
-
-
-
-	
-
-   
-	
 	return(0);
     
 

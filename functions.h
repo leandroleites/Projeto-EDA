@@ -5,19 +5,21 @@
 #include "functions.c"
 #include <stdlib.h>
 #include <stdio.h> 
-void lerClientes(Cliente **listaClientes);
+
 void lerMeios(MeioEletrico **listaMeios);
-
-
 void insereCliente(Cliente **listaClientes);
 void insereGestor(Gestor **listaGestores);
-void mostraClientes(Cliente *listaClientes);
-
+void mostraClientes();
+void mostragestores(Gestor **listaGestores);
 void insereMeio(MeioEletrico **listaMeios);
-void mostraMeios(MeioEletrico **listaMeios);
-
+void mostrarMeios();
 void menuescolhasgestor();
-
 void registraCliente(Cliente **listaClientes);
+void remover_meio(MeioEletrico *listaMeios);
+void remover_cliente(Cliente **listaClientes);
 void loginGestor();
+void loginCliente();
+void alugarMeio(Cliente *cliente);
+void listarMeiosPorAutonomia();
+
 #endif

@@ -10,6 +10,7 @@ typedef struct MeioEletrico {
     int carga_bateria;
     float custo;
     char localizacao[20];
+    int alugado;
     struct MeioEletrico *proximo;
 } MeioEletrico;
 
@@ -26,6 +27,7 @@ typedef struct Cliente {
 } Cliente;
 
 typedef struct Gestor {
+    int id;
     char nome[50];
     char email[50];
     char pass[50];
