@@ -1,1 +1,4 @@
-1;carro;100;1000.00;lisboa
+2;Mota;95;420;Lisboa
+3;Trotinete;34;85;Aveiro
+5;carro;200;100.00;Algarve
+6;bike;100;20.00;guarda
