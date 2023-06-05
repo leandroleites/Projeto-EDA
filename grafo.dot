@@ -1,0 +1,25 @@
+digraph G {
+  // Definição dos vértices
+  0 [label="///mantenha.pactual.prestigiar\nMonte_SantoOvidio"];
+  1 [label="///couve.vinha.expõe\nZé_Dos_Cães"];
+  2 [label="///importava.autênticas.escalão\nTasca_Lemos"];
+  3 [label="///estrelinha.misturam.negociado\nIgreja_SaoBento"];
+  4 [label="///levou.bonés.tapeçaria\nJunta_de_Freguesia"];
+  5 [label="///consideráveis.exprimindo.afobar\nLargo_Vilarinho"];
+  6 [label="///coisas.suspensos.rasgão\nCampo_Desportivo"];
+  7 [label="///desvairar.envolvimento.reintegrando\nMercearia_Teixeira"];
+
+  // Definição das arestas
+  0 -> 1 [label="13"];
+  0 -> 2 [label="15"];
+  1 -> 2 [label="17"];
+  1 -> 4 [label="23"];
+  2 -> 3 [label="19"];
+  2 -> 6 [label="28"];
+  3 -> 4 [label="13"];
+  3 -> 5 [label="15"];
+  4 -> 5 [label="17"];
+  4 -> 7 [label="28"];
+  5 -> 6 [label="19"];
+  6 -> 7 [label="15"];
+}

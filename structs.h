@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <float.h>
+#include <stdbool.h>
 #include "functions.h"
 #ifndef STRUCTS_H_INCLUDED
 #define STRUCTS_H_INCLUDED
@@ -9,7 +12,8 @@ typedef struct MeioEletrico {
     char tipo[20];
     int carga_bateria;
     float custo;
-    char localizacao[20];
+    char localizacao[50];
+    char local_grafo[50];
     int alugado;
     struct MeioEletrico *proximo;
 } MeioEletrico;
@@ -35,7 +39,27 @@ typedef struct Gestor {
 } Gestor;
 
 
+typedef struct aresta {
+    int id_origem;      // id do vértice de origem
+    int id_destino;     // id do vértice de destino
+    int peso;
+    struct aresta* proxima;
+} aresta;
 
+typedef struct vertice {
+    int id;
+    char nome[50];
+    char local_meio[50];
+    MeioEletrico* meios;
+    aresta* arestas; 
+    struct vertice* seguinte;
+} vertice;
+
+typedef struct grafo {
+    int num_vertices;
+    int num_arestas;
+    vertice* vertices;
+} grafo;
 
 
 
