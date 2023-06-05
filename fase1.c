@@ -2,18 +2,22 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 #include "structs.h"
 #include "functions.h"
 
 int main()
 {   
-	
-
     int opc;
 	int op1;
 	int opinicial;
 	Cliente *listaClientes = NULL;
 	MeioEletrico *listaMeios =NULL;
+	aresta* headA = NULL;
+	grafo* headV = NULL;
+	
+	
 	printf("\nEscolha uma opcao:\n");
     printf(" --------------------------\n");
 	printf("| 1- Login como Gestor     |\n");
@@ -33,7 +37,6 @@ int main()
 		break;
 		case 3:
 		registraCliente(&listaClientes);
-
 		break;
 		default:
 		break;
